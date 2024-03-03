@@ -6,10 +6,9 @@ import br.com.erudio.restwithspringbootandjava.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
 import java.awt.*;
-import java.util.concurrent.atomic.AtomicLong;
-import br.com.erudio.restwithspringbootandjava.convert.Validation;
+
 
 @RestController
 @RequestMapping("/person")
@@ -19,47 +18,31 @@ public class PersonController {
     private PersonService service;
 //    private PersonService service = new PersonService();
 
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Person> findAll(){
+
+        return service.findALl();
+    }
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Person findById(@PathVariable(value = "id") String id) throws Exception{
 
         return service.findById(id);
     }
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Person create(@RequestBody Person person) throws Exception{
 
-    @RequestMapping(value = "/subtraction/{num1}/{num2}", method = RequestMethod.GET)
-    public Double subtraction(@PathVariable(value = "num1") String num1, @PathVariable(value = "num2") String num2) throws Exception {
-        if(!Validation.isNumeric(num1) || !Validation.isNumeric(num2)) {
-            throw new UnsupportedMathOperationExeception("Please set a numeric value!");
-        }
+        return service.create(person);
+    }
+    @RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Person update(@RequestBody Person person) throws Exception{
 
-        return Validation.convertToDouble(num1) - Validation.convertToDouble(num2);
+        return service.update(person);
     }
 
-    @RequestMapping(value = "/division/{num1}/{num2}", method = RequestMethod.GET)
-    public Double division(@PathVariable(value = "num1") String num1, @PathVariable(value = "num2") String num2) throws Exception {
-        if(!Validation.isNumeric(num1) || !Validation.isNumeric(num2)) {
-            throw new UnsupportedMathOperationExeception("Please set a numeric value!");
-        }
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void delete(@PathVariable(value = "id") String id) throws Exception{
 
-        return Validation.convertToDouble(num1) / Validation.convertToDouble(num2);
-    }
-
-    @RequestMapping(value = "/media/{num1}/{num2}", method = RequestMethod.GET)
-    public Double media(@PathVariable(value = "num1") String num1, @PathVariable(value = "num2") String num2) throws Exception {
-        if(!Validation.isNumeric(num1) || !Validation.isNumeric(num2)) {
-            throw new UnsupportedMathOperationExeception("Please set a numeric value!");
-        }
-
-        double sum = Validation.convertToDouble(num1) + Validation.convertToDouble(num2);
-
-        return sum / 2;
-    }
-
-    @RequestMapping(value = "/multiplication/{num1}/{num2}", method = RequestMethod.GET)
-    public Double multiplication(@PathVariable(value = "num1") String num1, @PathVariable(value = "num2") String num2) throws Exception {
-        if(!Validation.isNumeric(num1) || !Validation.isNumeric(num2)) {
-            throw new UnsupportedMathOperationExeception("Please set a numeric value!");
-        }
-        return Validation.convertToDouble(num1) * Validation.convertToDouble(num2);
+        service.delete(id);
     }
 
 }

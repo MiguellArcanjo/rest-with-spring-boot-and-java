@@ -1,5 +1,6 @@
-package br.com.erudio.restwithspringbootandjava;
+package br.com.erudio.restwithspringbootandjava.controllers;
 
+import br.com.erudio.restwithspringbootandjava.Greeting;
 import lombok.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

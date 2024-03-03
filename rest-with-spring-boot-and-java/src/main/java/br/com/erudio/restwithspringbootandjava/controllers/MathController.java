@@ -1,4 +1,4 @@
-package br.com.erudio.restwithspringbootandjava;
+package br.com.erudio.restwithspringbootandjava.controllers;
 
 import br.com.erudio.restwithspringbootandjava.exceptions.UnsupportedMathOperationExeception;
 import org.springframework.web.bind.annotation.*;
