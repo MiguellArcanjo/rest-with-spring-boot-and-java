@@ -1,6 +1,6 @@
 package br.com.erudio.restwithspringbootandjava.controllers;
 
-import br.com.erudio.restwithspringbootandjava.exceptions.UnsupportedMathOperationExeception;
+import br.com.erudio.restwithspringbootandjava.exceptions.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.atomic.AtomicLong;
 import br.com.erudio.restwithspringbootandjava.convert.Validation;
@@ -13,7 +13,7 @@ public class MathController {
     public Double sum(@PathVariable(value = "num1") String num1, @PathVariable(value = "num2") String num2) throws Exception{
 
         if (!Validation.isNumeric(num1) || !Validation.isNumeric(num2)) {
-            throw new UnsupportedMathOperationExeception("Please set a numeric value!");
+            throw new ResourceNotFoundException("Please set a numeric value!");
         }
         return Validation.convertToDouble(num1) + Validation.convertToDouble(num2);
     }
@@ -21,7 +21,7 @@ public class MathController {
     @RequestMapping(value = "/subtraction/{num1}/{num2}", method = RequestMethod.GET)
     public Double subtraction(@PathVariable(value = "num1") String num1, @PathVariable(value = "num2") String num2) throws Exception {
         if(!Validation.isNumeric(num1) || !Validation.isNumeric(num2)) {
-            throw new UnsupportedMathOperationExeception("Please set a numeric value!");
+            throw new ResourceNotFoundException("Please set a numeric value!");
         }
 
         return Validation.convertToDouble(num1) - Validation.convertToDouble(num2);
@@ -30,7 +30,7 @@ public class MathController {
     @RequestMapping(value = "/division/{num1}/{num2}", method = RequestMethod.GET)
     public Double division(@PathVariable(value = "num1") String num1, @PathVariable(value = "num2") String num2) throws Exception {
         if(!Validation.isNumeric(num1) || !Validation.isNumeric(num2)) {
-            throw new UnsupportedMathOperationExeception("Please set a numeric value!");
+            throw new ResourceNotFoundException("Please set a numeric value!");
         }
 
         return Validation.convertToDouble(num1) / Validation.convertToDouble(num2);
@@ -39,7 +39,7 @@ public class MathController {
     @RequestMapping(value = "/media/{num1}/{num2}", method = RequestMethod.GET)
     public Double media(@PathVariable(value = "num1") String num1, @PathVariable(value = "num2") String num2) throws Exception {
         if(!Validation.isNumeric(num1) || !Validation.isNumeric(num2)) {
-            throw new UnsupportedMathOperationExeception("Please set a numeric value!");
+            throw new ResourceNotFoundException("Please set a numeric value!");
         }
 
         double sum = Validation.convertToDouble(num1) + Validation.convertToDouble(num2);
@@ -50,7 +50,7 @@ public class MathController {
     @RequestMapping(value = "/multiplication/{num1}/{num2}", method = RequestMethod.GET)
     public Double multiplication(@PathVariable(value = "num1") String num1, @PathVariable(value = "num2") String num2) throws Exception {
         if(!Validation.isNumeric(num1) || !Validation.isNumeric(num2)) {
-            throw new UnsupportedMathOperationExeception("Please set a numeric value!");
+            throw new ResourceNotFoundException("Please set a numeric value!");
         }
         return Validation.convertToDouble(num1) * Validation.convertToDouble(num2);
     }
