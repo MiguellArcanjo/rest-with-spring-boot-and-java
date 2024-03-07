@@ -6,7 +6,8 @@ spring:
     password: 321987
   jpa:
     hibernate:
-      ddl-auto: update
+#      ddl-auto: update // deixar habilitado ate o hibernate criar as tabelas e vc salvar ela no db.migration
+       dll-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
