@@ -65,14 +65,16 @@ public class PersonService {
         vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
         return vo;
     }
-    public PersonVOV2 createV2(PersonVOV2 person) {
-        logger.info("Creating one person with v2!");
 
-        var entity = mapper.convertVoToEntity(person);
-
-        var vo = mapper.convertEntityToVo(repository.save(entity));
-        return vo;
-    }
+//
+//    public PersonVOV2 createV2(PersonVOV2 person) {
+//        logger.info("Creating one person with v2!");
+//
+//        var entity = mapper.convertVoToEntity(person);
+//
+//        var vo = mapper.convertEntityToVo(repository.save(entity));
+//        return vo;
+//    }
 
     public PersonVO update(PersonVO person) throws Exception {
         logger.info("Creating one person!");

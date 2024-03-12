@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 public class BooksMapper {
     public BooksVO convertEntityToVo(Books books) {
         BooksVO vo = new BooksVO();
-        vo.setId(books.getId());
+        vo.setKey(books.getId());
         vo.setAuthor(books.getAuthor());
-        vo.setLauncherDate(books.getLauncherDate());
+        vo.setLaunchDate(books.getLaunchDate());
         vo.setPrice(books.getPrice());
         vo.setTittle(books.getTittle());
         return vo;
@@ -18,9 +18,9 @@ public class BooksMapper {
 
     public Books convertVoToEntity(BooksVO books) {
         Books entity = new Books();
-        entity.setId(books.getId());
+        entity.setId(books.getKey());
         entity.setAuthor(books.getAuthor());
-        entity.setLauncherDate(books.getLauncherDate());
+        entity.setLaunchDate(books.getLaunchDate());
         entity.setPrice(books.getPrice());
         entity.setTittle(books.getTittle());
         return entity;

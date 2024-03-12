@@ -1,22 +1,26 @@
 package br.com.erudio.restwithspringbootandjava.data.vo.v1;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class BooksVO {
+@JsonPropertyOrder({"key", "author", "launchDate", "price", "tittle"})
+public class BooksVO extends RepresentationModel<BooksVO> {
 
-    private Long id;
+    private Long key;
     private String author;
-    private LocalDate launcherDate;
+    private LocalDate launch_date;
     private double price;
     private String tittle;
 
-    public BooksVO(Long id, String author, LocalDate launcherDate, double price, String tittle) {
-        this.id = id;
+    public BooksVO(Long key, String author, LocalDate launch_date, double price, String tittle) {
+        this.key = key;
         this.author = author;
-        this.launcherDate = launcherDate;
+        this.launch_date = launch_date;
         this.price = price;
         this.tittle = tittle;
     }
@@ -25,12 +29,12 @@ public class BooksVO {
 
     }
 
-    public Long getId() {
-        return id;
+    public Long getKey() {
+        return key;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setKey(Long key) {
+        this.key = key;
     }
 
     public String getAuthor() {
@@ -41,12 +45,12 @@ public class BooksVO {
         this.author = author;
     }
 
-    public LocalDate getLauncherDate() {
-        return launcherDate;
+    public LocalDate getLaunchDate() {
+        return launch_date;
     }
 
-    public void setLauncherDate(LocalDate launcherDate) {
-        this.launcherDate = launcherDate;
+    public void setLaunchDate(LocalDate launch_date) {
+        this.launch_date = launch_date;
     }
 
     public double getPrice() {
@@ -70,11 +74,11 @@ public class BooksVO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BooksVO books = (BooksVO) o;
-        return Double.compare(price, books.price) == 0 && Objects.equals(id, books.id) && Objects.equals(author, books.author) && Objects.equals(launcherDate, books.launcherDate) && Objects.equals(tittle, books.tittle);
+        return Double.compare(price, books.price) == 0 && Objects.equals(key, books.key) && Objects.equals(author, books.author) && Objects.equals(launch_date, books.launch_date) && Objects.equals(tittle, books.tittle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, author, launcherDate, price, tittle);
+        return Objects.hash(key, author, launch_date, price, tittle);
     }
 }

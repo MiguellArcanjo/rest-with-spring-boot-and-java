@@ -2,12 +2,15 @@ package br.com.erudio.restwithspringbootandjava.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
 @Table(name = "books")
-public class Books {
+public class Books implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,8 +19,8 @@ public class Books {
     @Column(name = "author", nullable = true, length = 80)
     private String author;
 
-    @Column(name = "launcher_date", nullable = false, length = 80)
-    private LocalDate launcherDate;
+    @Column(name = "launch_date", nullable = false, length = 80)
+    private LocalDate launch_date;
 
     @Column(name = "price", nullable = false, length = 80)
     private double price;
@@ -25,10 +28,10 @@ public class Books {
     @Column(name = "title", nullable = true, length = 80)
     private String tittle;
 
-    public Books(Long id, String author, LocalDate launcherDate, double price, String tittle) {
+    public Books(Long id, String author, LocalDate launch_date, double price, String tittle) {
         this.id = id;
         this.author = author;
-        this.launcherDate = launcherDate;
+        this.launch_date = launch_date;
         this.price = price;
         this.tittle = tittle;
     }
@@ -54,12 +57,12 @@ public class Books {
         this.author = author;
     }
 
-    public LocalDate getLauncherDate() {
-        return launcherDate;
+    public LocalDate getLaunchDate() {
+        return launch_date;
     }
 
-    public void setLauncherDate(LocalDate launcherDate) {
-        this.launcherDate = launcherDate;
+    public void setLaunchDate(LocalDate launch_date) {
+        this.launch_date = launch_date;
     }
 
     public double getPrice() {
@@ -83,11 +86,11 @@ public class Books {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Books books = (Books) o;
-        return Double.compare(price, books.price) == 0 && Objects.equals(id, books.id) && Objects.equals(author, books.author) && Objects.equals(launcherDate, books.launcherDate) && Objects.equals(tittle, books.tittle);
+        return Double.compare(price, books.price) == 0 && Objects.equals(id, books.id) && Objects.equals(author, books.author) && Objects.equals(launch_date, books.launch_date) && Objects.equals(tittle, books.tittle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, author, launcherDate, price, tittle);
+        return Objects.hash(id, author, launch_date, price, tittle);
     }
 }
