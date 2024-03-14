@@ -3,6 +3,7 @@ package br.com.erudio.restwithspringbootandjava.data.vo.v1.security;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
 public class TokenVO implements Serializable {
@@ -11,12 +12,12 @@ public class TokenVO implements Serializable {
 
     private String username;
     private Boolean authenticated;
-    private LocalDate created;
-    private LocalDate expiration;
+    private Date created;
+    private Date expiration;
     private String accessToken;
     private String refreshToken;
 
-    public TokenVO(String username, Boolean authenticated, LocalDate created, LocalDate expiration, String accessToken, String refreshToken) {
+    public TokenVO(String username, Boolean authenticated, Date created, Date expiration, String accessToken, String refreshToken) {
         this.username = username;
         this.authenticated = authenticated;
         this.created = created;
@@ -43,19 +44,19 @@ public class TokenVO implements Serializable {
         this.authenticated = authenticated;
     }
 
-    public LocalDate getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDate created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
-    public LocalDate getExpiration() {
+    public Date getExpiration() {
         return expiration;
     }
 
-    public void setExpiration(LocalDate expiration) {
+    public void setExpiration(Date expiration) {
         this.expiration = expiration;
     }
 
