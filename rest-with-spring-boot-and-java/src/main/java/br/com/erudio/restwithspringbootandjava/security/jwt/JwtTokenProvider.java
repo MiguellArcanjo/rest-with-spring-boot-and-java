@@ -1,9 +1,12 @@
-package br.com.erudio.restwithspringbootandjava.securityJwt;
+package br.com.erudio.restwithspringbootandjava.security.jwt;
 
 import br.com.erudio.restwithspringbootandjava.data.vo.v1.security.TokenVO;
+import br.com.erudio.restwithspringbootandjava.exceptions.InvalidJwtAuthenticationException;
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,7 +28,7 @@ public class JwtTokenProvider {
     @Value("${security.jwt.token.secret-key:secret}")
     private String secretKey = "secret";
 
-    @Value("${security.jwt.token.expire-lenght:3600000}")
+    @Value("${security.jwt.token.expire-length:3600000}")
     private long validityInMilliSeconds = 3600000; // 1h
 
     @Autowired
@@ -79,7 +82,32 @@ public class JwtTokenProvider {
     }
 
     private DecodedJWT decodedToken(String token) {
+        Algorithm alg = Algorithm.HMAC256(secretKey.getBytes());
+        JWTVerifier verifier = JWT.require(alg).build();
+        DecodedJWT decodedJWT = verifier.verify(token);
+        return decodedJWT;
+    }
 
+    public String resolveToken(HttpServletRequest req) {
+        String bearerToken = req.getHeader("Authorization");
+
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring("Bearer ".length());
+
+        }
+        return null;
+    }
+
+    public boolean validateToken(String token) throws InvalidJwtAuthenticationException {
+        DecodedJWT decodedJWT = decodedToken(token);
+        try {
+            if (decodedJWT.getExpiresAt().before(new Date())) {
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            throw new InvalidJwtAuthenticationException("Expired or invalid JWT Token!");
+        }
     }
 
 }
