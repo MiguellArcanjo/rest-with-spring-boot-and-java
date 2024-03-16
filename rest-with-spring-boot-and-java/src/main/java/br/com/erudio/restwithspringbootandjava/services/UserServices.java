@@ -1,12 +1,15 @@
 package br.com.erudio.restwithspringbootandjava.services;
 
+import br.com.erudio.restwithspringbootandjava.controllers.AuthController;
 import br.com.erudio.restwithspringbootandjava.controllers.PersonController;
 import br.com.erudio.restwithspringbootandjava.data.vo.v1.PersonVO;
+import br.com.erudio.restwithspringbootandjava.data.vo.v1.UserVO;
 import br.com.erudio.restwithspringbootandjava.exceptions.RequiredObjectIsNullException;
 import br.com.erudio.restwithspringbootandjava.exceptions.ResourceNotFoundException;
 import br.com.erudio.restwithspringbootandjava.mapper.DozerMapper;
 import br.com.erudio.restwithspringbootandjava.mapper.custom.PersonMapper;
 import br.com.erudio.restwithspringbootandjava.model.Person;
+import br.com.erudio.restwithspringbootandjava.model.User;
 import br.com.erudio.restwithspringbootandjava.repositories.PersonRepository;
 import br.com.erudio.restwithspringbootandjava.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +36,6 @@ public class UserServices implements UserDetailsService {
         this.repository = repository;
     }
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var user = repository.findByUsername(username);
@@ -44,4 +46,13 @@ public class UserServices implements UserDetailsService {
             throw new UsernameNotFoundException("Username " + username + " not found!");
         }
     }
+
+    public UserVO create(UserVO user) throws Exception {
+
+        if (user == null) throw new RequiredObjectIsNullException();
+
+        var entity = DozerMapper.parseObject(user, User.class);
+        return DozerMapper.parseObject(repository.save(entity), UserVO.class);
+    }
+
 }
