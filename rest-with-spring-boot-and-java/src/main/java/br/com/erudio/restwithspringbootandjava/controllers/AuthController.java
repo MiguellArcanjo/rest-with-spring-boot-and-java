@@ -12,10 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +35,18 @@ public class AuthController {
         var token = authService.signin(data);
         if (token == null) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Client Request");
         return token;
+    }
+    @Operation(summary = "Refresh token for authenticated user and returns a token")
+    @PutMapping(value = "/refresh/{username}")
+    public ResponseEntity refreshToken(@PathVariable("username") String username, @RequestHeader("Authorization") String refreshToken) {
+        if (checkIfParamsIsNotNull(username, refreshToken)) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Client Request");
+        var token = authService.refreshToken(username, refreshToken);
+        if (token == null) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Client Request");
+        return token;
+    }
+
+    private static boolean checkIfParamsIsNotNull(String username, String refreshToken) {
+        return refreshToken == null || refreshToken.isBlank() || username == null || username.isBlank();
     }
 
     @Operation(summary = "Create a new User")

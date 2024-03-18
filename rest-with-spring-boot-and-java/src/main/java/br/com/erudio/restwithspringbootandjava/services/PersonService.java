@@ -9,6 +9,7 @@ import br.com.erudio.restwithspringbootandjava.mapper.DozerMapper;
 import br.com.erudio.restwithspringbootandjava.mapper.custom.PersonMapper;
 import br.com.erudio.restwithspringbootandjava.model.Person;
 import br.com.erudio.restwithspringbootandjava.repositories.PersonRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -98,6 +99,20 @@ public class PersonService {
         var entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
 
         repository.delete(entity);
+    }
+
+    @Transactional
+    public PersonVO disablePerson(Long id) throws Exception {
+
+        logger.info("Disablind one person!");
+
+        repository.disablePerson(id);
+
+        var entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+
+        var vo = DozerMapper.parseObject(entity, PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+        return vo;
     }
 
 
