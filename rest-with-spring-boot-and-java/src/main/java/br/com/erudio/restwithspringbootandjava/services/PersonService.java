@@ -2,7 +2,6 @@ package br.com.erudio.restwithspringbootandjava.services;
 
 import br.com.erudio.restwithspringbootandjava.controllers.PersonController;
 import br.com.erudio.restwithspringbootandjava.data.vo.v1.PersonVO;
-import br.com.erudio.restwithspringbootandjava.data.vo.v2.PersonVOV2;
 import br.com.erudio.restwithspringbootandjava.exceptions.RequiredObjectIsNullException;
 import br.com.erudio.restwithspringbootandjava.exceptions.ResourceNotFoundException;
 import br.com.erudio.restwithspringbootandjava.mapper.DozerMapper;
@@ -13,6 +12,12 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 
@@ -28,21 +33,27 @@ public class PersonService {
     PersonRepository repository;
 
     @Autowired
+    PagedResourcesAssembler<PersonVO> assembler;
+
+    @Autowired
     PersonMapper mapper;
 
-    public List<PersonVO> findALl() {
+    public PagedModel<EntityModel<PersonVO>> findALl(Pageable pageable) {
 
-        var persons = DozerMapper.parseListObjects(repository.findAll(), PersonVO.class);
+        var personPage = repository.findAll(pageable);
 
-        persons.stream().forEach(p -> {
+        var personVosPage =  personPage.map(p -> DozerMapper.parseObject(p, PersonVO.class));
+
+        personVosPage.map(p -> {
             try {
-                p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel());
+                return p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
 
-        return persons;
+        Link link = linkTo(methodOn(PersonController.class).findAll(pageable.getPageNumber(), pageable.getPageSize(), "asc")).withSelfRel();
+        return assembler.toModel(personVosPage, link);
     }
 
     public PersonVO findById(Long id) throws Exception {
