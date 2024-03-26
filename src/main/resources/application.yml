@@ -16,9 +16,9 @@ security:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/rest_with_spring_boot_erudio
-    username: postgres
-    password: 321987
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
   jpa:
     hibernate:
 #      ddl-auto: update // deixar habilitado ate o hibernate criar as tabelas e vc salvar ela no db.migration
