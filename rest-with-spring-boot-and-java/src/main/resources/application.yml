@@ -15,17 +15,20 @@ security:
 
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/rest_with_spring_boot_erudio?useTimeZone=true&serverTimeZone=UTC
-    username: root
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/rest_with_spring_boot_erudio
+    username: postgres
     password: 321987
   jpa:
     hibernate:
 #      ddl-auto: update // deixar habilitado ate o hibernate criar as tabelas e vc salvar ela no db.migration
        dll-auto: none
+    jdbc:
+      lob:
+        non_contextual_creation: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
       show-sql: true
 
   servlet:
@@ -41,3 +44,9 @@ springdoc:
     - /auth/**
   swagger-ui:
     use-root-path: true
+
+flyway:
+  url: jdbc:postgresql://localhost:5432/
+  schemas: rest_with_spring_boot_erudio
+  user: postgres
+  password: 321987
