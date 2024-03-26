@@ -46,7 +46,7 @@ springdoc:
     use-root-path: true
 
 flyway:
-  url: jdbc:postgresql://localhost:5432/
-  schemas: rest_with_spring_boot_erudio
-  user: postgres
-  password: 321987
+  url: ${DATABASE_NAMEFLYWAY}
+  schemas: ${DATABASE_NAME}
+  user: ${DATABASE_USERNAME}
+  password: ${DATABASE_PASSWORD}
