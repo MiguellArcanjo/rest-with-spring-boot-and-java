@@ -44,9 +44,3 @@ springdoc:
     - /auth/**
   swagger-ui:
     use-root-path: true
-
-flyway:
-  url: ${DATABASE_NAMEFLYWAY}/${DATABASE_NAME}
-  schemas: ${DATABASE_NAME}
-  user: ${DATABASE_USERNAME}
-  password: ${DATABASE_PASSWORD}
